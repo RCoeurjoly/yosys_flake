@@ -4,13 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    yosys = {
-      url = "github:RCoeurjoly/yosys";
-      flake = false;
-    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, yosys }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -18,7 +14,7 @@
         };
         customYosys = pkgs.clangStdenv.mkDerivation {
           name = "yosys";
-          pname   = "yosys";
+          pname = "yosys";
           version = "0.35";
           src = ./yosys;
           buildInputs = with pkgs; [ clang bison flex libffi tcl readline python3 llvmPackages.libcxxClang zlib git ];
